@@ -4,15 +4,15 @@ namespace PaymentGateway.Payment
 {
     public class PaymentResponse
     {
-        public Guid PaymentId { get; set; }
-        public bool Success { get; set; }
-        public string Message { get; set; }
+        public Guid PaymentId { get; private set; }
+        public bool Success { get; private set; }
+        public string Message { get; private set; }
 
         public static PaymentResponse FromBankResult(Guid paymentId, bool bankPaymentResult)
         {
             return new PaymentResponse
             {
-                Success = false,
+                Success = bankPaymentResult,
                 PaymentId = paymentId,
                 Message = "Bank response"
             };

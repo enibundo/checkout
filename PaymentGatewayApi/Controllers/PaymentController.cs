@@ -15,7 +15,7 @@ namespace PaymentGatewayApi.Controllers
         private readonly IPaymentGateway _paymentGateway;
         private readonly ILogger<PaymentController> _logger;
 
-        public PaymentController(IPaymentGateway paymentGateway, 
+        public PaymentController(IPaymentGateway paymentGateway,
                                  ILogger<PaymentController> logger)
         {
             _paymentGateway = paymentGateway;
@@ -26,6 +26,12 @@ namespace PaymentGatewayApi.Controllers
         public Payment Get(Guid paymentId)
         {
             return _paymentGateway.Get(paymentId);
+        }
+
+        [HttpPost]
+        public PaymentResponse Submit(PaymentRequest paymentRequest)
+        {
+            return _paymentGateway.Submit(paymentRequest);
         }
     }
 }
