@@ -5,9 +5,19 @@ Here I have implemented a small PaymentGateway REST Api.
 ![Swagger Response](pic2.PNG "Swagger Response")
 
 # Application logging
-For logging I implemented SeriLog for structured logging together Logstash. 
+For logging I used SeriLog for structured logging. 
+Todo: use Logstash (https://www.elastic.co/logstash). 
 
 # Application metrics
+I have never had the chance to work with metrics directly before.
+I would use something like https://docs.datadoghq.com/developers/metrics/types/?tab=count
+It's interesting to know :
+- number of payment requests
+- amount of payment
+- currency counters
+- number of failures/sucesss
+- counter by return status code
+- etc. 
 
 # Containerization
 
