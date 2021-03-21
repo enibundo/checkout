@@ -27,7 +27,7 @@ namespace CheckoutPaymentGatewayApi
 
             services.AddTransient<IPaymentGateway, PaymentGateway>();
             services.AddTransient<IBank, AlwaysSucceedBank>();
-            services.AddTransient<ICreditCardValidator, CreditCardValidator>();
+            services.AddTransient<IPaymentRequestPreProcessor, PaymentRequestPreProcessor>();
             services.AddTransient<IMaskCreditCardService, MaskCreditCardService>();
             services.AddSingleton<IPaymentRepository, MemoryPaymentRepository>();
 

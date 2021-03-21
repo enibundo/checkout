@@ -1,17 +1,20 @@
 using System;
 using CheckoutPaymentGateway.Payment;
 using CheckoutPaymentGateway.Services;
+using Moq;
 using NUnit.Framework;
 
 namespace CheckoutPaymentGatewayTests
 {
     public class CreditCardValidatorTests
     {
-        private readonly CreditCardValidator _creditCardValidator;
+        private readonly PaymentRequestPreProcessor _creditCardValidator;
+        private readonly Mock<IMaskCreditCardService> _maskCreditCardService;
 
         public CreditCardValidatorTests()
         {
-            _creditCardValidator = new CreditCardValidator();
+            _maskCreditCardService = new Mock<IMaskCreditCardService>();
+            _creditCardValidator = new PaymentRequestPreProcessor(_maskCreditCardService.Object);
         }
 
         [Test]

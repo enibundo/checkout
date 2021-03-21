@@ -4,7 +4,6 @@ namespace CheckoutPaymentGateway.Services
 {
     public class MaskCreditCardService : IMaskCreditCardService
     {
-
         public MaskedCreditCard Mask(CreditCard creditCard)
         {
             var lastFourDigitsOfCreditCard = creditCard.Number.Length == 16
