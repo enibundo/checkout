@@ -14,7 +14,7 @@ namespace CheckoutPaymentGateway.Services
             _maskCreditCardService = maskCreditCardService;
         }
 
-        public bool IsValid(CreditCard creditCard)
+        private bool IsValidCreditCard(CreditCard creditCard)
         {
             if (string.IsNullOrEmpty(creditCard.Number))
                 return false;
@@ -52,9 +52,9 @@ namespace CheckoutPaymentGateway.Services
         private bool IsNameSet(CreditCard creditCard)
         {
             return !string.IsNullOrWhiteSpace(creditCard.HolderFirstName) && 
-                   !string.IsNullOrWhiteSpace(creditCard.HolderFirstName) && 
+                   !string.IsNullOrEmpty(creditCard.HolderFirstName) && 
                    !string.IsNullOrWhiteSpace(creditCard.HolderLastName) && 
-                   !string.IsNullOrWhiteSpace(creditCard.HolderLastName);
+                   !string.IsNullOrEmpty(creditCard.HolderLastName);
         }
 
         private bool IsCcvValidFormat(CreditCard creditCard)
@@ -65,7 +65,8 @@ namespace CheckoutPaymentGateway.Services
 
         public MaskedPaymentRequest Process(PaymentRequest paymentRequest)
         {
-            var isValid = IsValid(paymentRequest.CreditCard);
+            var isValid = paymentRequest.Amount > 0 && IsValidCreditCard(paymentRequest.CreditCard);
+
             return new MaskedPaymentRequest
             {
                 Amount = paymentRequest.Amount,

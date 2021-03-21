@@ -14,12 +14,12 @@ namespace CheckoutPaymentGateway.Payment
         private readonly IBank _bank;
 
         public PaymentGateway(IPaymentIdProvider paymentIdProvider,
-                              IPaymentRequestPreProcessor creditCardValidator,
+                              IPaymentRequestPreProcessor paymentRequestPreProcessor,
                               IPaymentRepository paymentRepository,
                               IBank bank)
         {
             _paymentIdProvider = paymentIdProvider;
-            _paymentRequestPreProcessor = creditCardValidator;
+            _paymentRequestPreProcessor = paymentRequestPreProcessor;
             _paymentRepository = paymentRepository;
             _bank = bank;
         }

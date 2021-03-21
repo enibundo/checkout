@@ -31,11 +31,36 @@ namespace CheckoutPaymentGatewayTests
                                                  _bank.Object);
         }
 
+
+        [Test]
+        public async Task should_call_bank_if_credit_card_is_valid()
+        {
+            // arrange
+            var paymentId = Guid.NewGuid();
+            var paymentRequest = new PaymentRequest();
+            _paymentIdProvider.Setup(x => x.Get())
+                              .Returns(paymentId);
+
+            _paymentRequestPreProcessor.Setup(x => x.Process(It.IsAny<PaymentRequest>()))
+                                       .Returns(new MaskedPaymentRequest
+                                       {
+                                           IsValid = true
+                                       });
+
+            // act
+            await _paymentGateway.Submit(paymentRequest);
+
+            // assert
+            _bank.Verify(x => x.ProceedPayment(paymentRequest), Times.Once());
+        }
+
+
         [Test]
         public async Task should_not_call_bank_if_credit_card_is_invalid()
         {
             // arrange
             var paymentId = Guid.NewGuid();
+            var paymentRequest = new PaymentRequest();
             _paymentIdProvider.Setup(x => x.Get())
                               .Returns(paymentId);
 
@@ -46,14 +71,10 @@ namespace CheckoutPaymentGatewayTests
                                        });
 
             // act
-            await _paymentGateway.Submit(new PaymentRequest());
+            await _paymentGateway.Submit(paymentRequest);
 
             // assert
-            _bank.Verify(x=>x.ProceedPayment(It.IsAny<PaymentRequest>()), Times.Never);
-            _paymentRepository.Verify(x => x.Store(paymentId,
-                                                   It.IsAny<MaskedPaymentRequest>(),
-                                                   It.IsAny<PaymentResponse>()),
-                                      Times.Once);
+            _bank.Verify(x=>x.ProceedPayment(paymentRequest), Times.Never());
         }
     }
 }
