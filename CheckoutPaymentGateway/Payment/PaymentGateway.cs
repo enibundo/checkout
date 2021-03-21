@@ -27,18 +27,15 @@ namespace CheckoutPaymentGateway.Payment
         public async Task<PaymentResponse> Submit(PaymentRequest paymentRequest)
         {
             var paymentId = Guid.NewGuid();
-         
             var paymentResponse = PaymentResponse.InvalidCreditCard(paymentId);
 
             if (_creditCardValidator.IsValid(paymentRequest.CreditCard))
             {
                 var bankPaymentResult = await _bank.ProceedPayment(paymentRequest);
-             
                 paymentResponse = PaymentResponse.FromBankResult(paymentId, bankPaymentResult);
             }
 
             var maskedRequest = GetMaskedRequest(paymentRequest);
-
             await _paymentRepository.Store(paymentId, maskedRequest, paymentResponse);
 
             return paymentResponse;

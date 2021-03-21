@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CheckoutPaymentGateway.Payment;
 using CheckoutPaymentGatewayApi.Payload;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,10 @@ namespace CheckoutPaymentGatewayApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> Get(GetPaymentPayload getPaymentPayload)
+        [HttpGet("{paymentId}")]
+        public async Task<JsonResult> Get(Guid  paymentId)
         {
-            return new JsonResult(await _paymentGateway.Get(getPaymentPayload.PaymentId));
+            return new JsonResult(await _paymentGateway.Get(paymentId));
         }
 
         [HttpPost]
