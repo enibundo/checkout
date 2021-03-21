@@ -30,6 +30,7 @@ namespace CheckoutPaymentGatewayApi
             services.AddTransient<IPaymentRequestPreProcessor, PaymentRequestPreProcessor>();
             services.AddTransient<IMaskCreditCardService, MaskCreditCardService>();
             services.AddSingleton<IPaymentRepository, MemoryPaymentRepository>();
+            services.AddSingleton<IPaymentIdProvider, PaymentIdProvider>();
 
             services.AddControllers();
             services.AddSwaggerGen();

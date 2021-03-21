@@ -4,6 +4,7 @@ using CheckoutPaymentGateway.Payment;
 using CheckoutPaymentGatewayApi.Payload;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CheckoutPaymentGatewayApi.Controllers
 {
@@ -24,12 +25,16 @@ namespace CheckoutPaymentGatewayApi.Controllers
         [HttpGet("{paymentId}")]
         public async Task<JsonResult> Get(Guid  paymentId)
         {
+            Log.Information("GET for {paymentId}", paymentId);
+
             return new JsonResult(await _paymentGateway.Get(paymentId));
         }
 
         [HttpPost]
         public async Task<JsonResult> Submit(SubmitPaymentPayload submitPaymentPayload)
         {
+            Log.Information("POST");
+
             var paymentRequest = GetPaymentRequest(submitPaymentPayload);
 
             return new JsonResult(await _paymentGateway.Submit(paymentRequest));

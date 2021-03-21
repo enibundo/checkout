@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CheckoutPaymentGateway.Bank;
 using CheckoutPaymentGateway.Services;
 using CheckoutPaymentGateway.Store;
+using Serilog;
 
 namespace CheckoutPaymentGateway.Payment
 {
