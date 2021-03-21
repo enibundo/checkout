@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CheckoutPaymentGateway\CheckoutPaymentGateway.csproj" />
-    <ProjectReference Include="..\PaymentGateway\CheckoutPaymentGateway.csproj" />
   </ItemGroup>
 
 </Project>

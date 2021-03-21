@@ -2,6 +2,7 @@ using CheckoutPaymentGateway.Bank;
 using CheckoutPaymentGateway.Payment;
 using CheckoutPaymentGateway.Services;
 using CheckoutPaymentGateway.Store;
+using CheckoutPaymentGatewayApi.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
