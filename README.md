@@ -1,6 +1,9 @@
 # CheckoutGateway
 Here I have implemented a small PaymentGateway REST Api. 
 
+![Swagger APIs](pic1.PNG "Swagger APIs")
+![Swagger Response](pic2.PNG "Swagger Response")
+
 # Application logging
 For logging I implemented SeriLog for structured logging together Logstash. 
 
