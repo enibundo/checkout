@@ -16,10 +16,10 @@ namespace CheckoutPaymentGateway.Services
 
         private bool IsCreditCardNumberValid(CreditCard creditCard)
         {
-            if (string.IsNullOrWhiteSpace(creditCard.CardNumber))
+            if (string.IsNullOrWhiteSpace(creditCard.Number))
                 return false;
 
-            var creditCardNoDashesSpaces = creditCard.CardNumber
+            var creditCardNoDashesSpaces = creditCard.Number
                                                      .Replace("' ", string.Empty)
                                                      .Replace("-", string.Empty);
 

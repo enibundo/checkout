@@ -73,7 +73,7 @@ namespace CheckoutPaymentGatewayTests
         {
             return new CreditCard
             {
-                CardNumber = cardNumber,
+                Number = cardNumber,
                 Cvv = "123",
                 HolderLastName = "Smith",
                 HolderFirstName = "John",

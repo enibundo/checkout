@@ -40,7 +40,7 @@ namespace CheckoutPaymentGatewayApi.Controllers
             {
                 Amount = submitPaymentPayload.Amount,
                 Currency = submitPaymentPayload.Currency,
-                CreditCard = submitPaymentPayload.CreditCardInformation
+                CreditCard = submitPaymentPayload.CreditCard
             };
         }
     }

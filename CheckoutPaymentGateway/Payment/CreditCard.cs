@@ -4,7 +4,7 @@ namespace CheckoutPaymentGateway.Payment
 {
     public class CreditCard
     {
-        public string CardNumber { get; set; }
+        public string Number { get; set; }
         public string HolderFirstName { get; set; }
         public string HolderLastName { get; set; }
         public DateTime ExpiryDate { get; set; }

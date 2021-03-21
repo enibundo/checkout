@@ -6,7 +6,7 @@ namespace CheckoutPaymentGateway.Services
     {
         public MaskedCreditCard Mask(CreditCard creditCard)
         {
-            var lastFourDigitsOfCreditCard = creditCard.CardNumber[12..16];
+            var lastFourDigitsOfCreditCard = creditCard.Number[12..16];
 
             return new MaskedCreditCard
             {
