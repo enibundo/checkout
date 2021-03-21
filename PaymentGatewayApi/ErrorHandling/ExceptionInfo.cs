@@ -1,4 +1,4 @@
-namespace PaymentGatewayApi.ErrorHandling
+namespace CheckoutPaymentGatewayApi.ErrorHandling
 {
     public class ExceptionInfo
     {

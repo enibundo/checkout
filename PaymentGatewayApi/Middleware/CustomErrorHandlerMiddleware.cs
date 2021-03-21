@@ -3,9 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using PaymentGatewayApi.ErrorHandling;
 
-namespace PaymentGatewayApi.Middleware
+namespace CheckoutPaymentGatewayApi.Middleware
 {
     public class CustomErrorHandlerMiddleware
     {

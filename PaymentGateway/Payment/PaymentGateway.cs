@@ -1,26 +1,30 @@
 ﻿using System;
-using PaymentGateway.Bank;
-using PaymentGateway.CreditCard;
-using PaymentGateway.Store;
+using System.Threading.Tasks;
+using CheckoutPaymentGateway.Bank;
+using CheckoutPaymentGateway.Services;
+using CheckoutPaymentGateway.Store;
 
-namespace PaymentGateway.Payment
+namespace CheckoutPaymentGateway.Payment
 {
     public class PaymentGateway : IPaymentGateway
     {
         private readonly ICreditCardValidator _creditCardValidator;
+        private readonly IMaskCreditCardService _maskCreditCardService;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IBank _bank;
 
-        public PaymentGateway(ICreditCardValidator creditCardValidator, 
+        public PaymentGateway(ICreditCardValidator creditCardValidator,
+                              IMaskCreditCardService maskCreditCardService,
                               IPaymentRepository paymentRepository,
                               IBank bank)
         {
             _creditCardValidator = creditCardValidator;
+            _maskCreditCardService = maskCreditCardService;
             _paymentRepository = paymentRepository;
             _bank = bank;
         }
 
-        public PaymentResponse Submit(PaymentRequest paymentRequest)
+        public async Task<PaymentResponse> Submit(PaymentRequest paymentRequest)
         {
             var paymentId = Guid.NewGuid();
          
@@ -28,19 +32,33 @@ namespace PaymentGateway.Payment
 
             if (_creditCardValidator.IsValid(paymentRequest.CreditCardInformation))
             {
-                var bankPaymentResult = _bank.ProceedPayment(paymentRequest);
+                var bankPaymentResult = await _bank.ProceedPayment(paymentRequest);
              
                 paymentResponse = PaymentResponse.FromBankResult(paymentId, bankPaymentResult);
             }
 
-            _paymentRepository.Store(paymentId, paymentRequest.AsMasked(), paymentResponse);
+            var maskedRequest = GetMaskedRequest(paymentRequest);
+
+            await _paymentRepository.Store(paymentId, maskedRequest, paymentResponse);
 
             return paymentResponse;
         }
 
-        public Payment Get(Guid paymentId)
+        private MaskedPaymentRequest GetMaskedRequest(PaymentRequest paymentRequest)
         {
-            return _paymentRepository.Get(paymentId);
+            var maskedCreditCard = _maskCreditCardService.Mask(paymentRequest.CreditCardInformation);
+
+            return new MaskedPaymentRequest
+            {
+                Amount = paymentRequest.Amount,
+                Currency = paymentRequest.Currency,
+                MaskedCreditCardInformation = maskedCreditCard
+            };
+        }
+
+        public async Task<Payment> Get(Guid paymentId)
+        {
+            return await _paymentRepository.Get(paymentId);
         }
     }
 }

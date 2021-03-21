@@ -1,4 +1,4 @@
-﻿namespace PaymentGateway.Payment
+﻿namespace CheckoutPaymentGateway.Payment
 {
     public class Payment 
     {

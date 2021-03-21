@@ -1,11 +1,12 @@
 ﻿using System;
-using PaymentGateway.Payment;
+using System.Threading.Tasks;
+using CheckoutPaymentGateway.Payment;
 
-namespace PaymentGateway.Store
+namespace CheckoutPaymentGateway.Store
 {
     public interface IPaymentRepository
     {
-        Payment.Payment Store(Guid paymentId, MaskedPaymentRequest paymentRequest, PaymentResponse paymentResponse);
-        Payment.Payment Get(Guid paymentId);
+        Task<Payment.Payment> Store(Guid paymentId, MaskedPaymentRequest paymentRequest, PaymentResponse paymentResponse);
+        Task<Payment.Payment> Get(Guid paymentId);
     }
 }

@@ -1,9 +1,10 @@
-﻿using PaymentGateway.Payment;
+﻿using System.Threading.Tasks;
+using CheckoutPaymentGateway.Payment;
 
-namespace PaymentGateway.Bank
+namespace CheckoutPaymentGateway.Bank
 {
     public interface IBank
     {
-        bool ProceedPayment(PaymentRequest paymentRequest);
+        Task<bool> ProceedPayment(PaymentRequest paymentRequest);
     }
 }

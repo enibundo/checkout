@@ -1,19 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
+using CheckoutPaymentGateway.Bank;
+using CheckoutPaymentGateway.Payment;
+using CheckoutPaymentGateway.Services;
+using CheckoutPaymentGateway.Store;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PaymentGateway.Bank;
-using PaymentGateway.CreditCard;
-using PaymentGateway.Payment;
-using PaymentGateway.Store;
-using PaymentGatewayApi.Middleware;
 
-namespace PaymentGatewayApi
+namespace CheckoutPaymentGatewayApi
 {
     public class Startup
     {
@@ -29,10 +24,11 @@ namespace PaymentGatewayApi
         {
             services.AddLogging();
 
-            services.AddTransient<IPaymentGateway, PaymentGateway.Payment.PaymentGateway>();
+            services.AddTransient<IPaymentGateway, PaymentGateway>();
             services.AddTransient<IBank, AlwaysSucceedBank>();
-            services.AddTransient<ICreditCardValidator, AlwaysValidCreditCardValidator>();
-            services.AddTransient<IPaymentRepository, InMemoryPaymentRepository>();
+            services.AddTransient<ICreditCardValidator, CreditCardValidator>();
+            services.AddTransient<IMaskCreditCardService, MaskCreditCardService>();
+            services.AddSingleton<IPaymentRepository, MemoryPaymentRepository>();
 
             services.AddControllers();
         }
@@ -45,6 +41,10 @@ namespace PaymentGatewayApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseHttpsRedirection();

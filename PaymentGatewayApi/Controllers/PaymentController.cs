@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.Payment;
 
-namespace PaymentGatewayApi.Controllers
+namespace CheckoutPaymentGatewayApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -23,15 +19,27 @@ namespace PaymentGatewayApi.Controllers
         }
 
         [HttpGet]
-        public Payment Get(Guid paymentId)
+        public async Task<JsonResult> Get(GetPaymentPayload getPaymentPayload)
         {
-            return _paymentGateway.Get(paymentId);
+            return new JsonResult(await _paymentGateway.Get(getPaymentPayload.PaymentId));
         }
 
         [HttpPost]
-        public PaymentResponse Submit(PaymentRequest paymentRequest)
+        public async Task<JsonResult> Submit(SubmitPaymentPayload submitPaymentPayload)
         {
-            return _paymentGateway.Submit(paymentRequest);
+            var paymentRequest = GetPaymentRequest(submitPaymentPayload);
+
+            return new JsonResult(await _paymentGateway.Submit(paymentRequest));
+        }
+
+        private PaymentRequest GetPaymentRequest(SubmitPaymentPayload submitPaymentPayload)
+        {
+            return new PaymentRequest
+            {
+                Amount = submitPaymentPayload.Amount,
+                Currency = submitPaymentPayload.Currency,
+                CreditCardInformation = submitPaymentPayload.CreditCardInformation
+            };
         }
     }
 }

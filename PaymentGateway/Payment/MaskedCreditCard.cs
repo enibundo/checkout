@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace PaymentGateway.CreditCard
+namespace CheckoutPaymentGateway.Payment
 {
-    public class MaskedCreditCardInformation
+    public class MaskedCreditCard
     {
-        public string LastFourDigitsOfCardNumber { get; set; }
+        public string CreditCardNumber { get; set; }
         public string HolderFirstName { get; set; }
         public string HolderLastName { get; set; }
         public DateTime ExpiryDate { get; set; }
-        public uint Cvv { get; set; }
+        public string Cvv => "***";
     }
 }

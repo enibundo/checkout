@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
-namespace PaymentGateway.Payment
+namespace CheckoutPaymentGateway.Payment
 {
     public interface IPaymentGateway
     {
-        PaymentResponse Submit(PaymentRequest paymentRequest);
-        Payment Get(Guid paymentId);
+        Task<PaymentResponse> Submit(PaymentRequest paymentRequest);
+        Task<Payment> Get(Guid paymentId);
     }
 }

@@ -1,12 +1,13 @@
-﻿using PaymentGateway.Payment;
+﻿using System.Threading.Tasks;
+using CheckoutPaymentGateway.Payment;
 
-namespace PaymentGateway.Bank
+namespace CheckoutPaymentGateway.Bank
 {
     public class AlwaysSucceedBank : IBank
     {
-        public bool ProceedPayment(PaymentRequest paymentRequest)
+        public Task<bool> ProceedPayment(PaymentRequest paymentRequest)
         {
-            return true;
+            return Task.FromResult(true);
         }
     }
 }
