@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using CheckoutPaymentGateway.Payment;
+using CheckoutPaymentGatewayApi.Payload;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -38,7 +40,7 @@ namespace CheckoutPaymentGatewayApi.Controllers
             {
                 Amount = submitPaymentPayload.Amount,
                 Currency = submitPaymentPayload.Currency,
-                CreditCardInformation = submitPaymentPayload.CreditCardInformation
+                CreditCard = submitPaymentPayload.CreditCardInformation
             };
         }
     }

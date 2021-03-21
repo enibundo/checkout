@@ -30,7 +30,7 @@ namespace CheckoutPaymentGateway.Payment
          
             var paymentResponse = PaymentResponse.InvalidCreditCard(paymentId);
 
-            if (_creditCardValidator.IsValid(paymentRequest.CreditCardInformation))
+            if (_creditCardValidator.IsValid(paymentRequest.CreditCard))
             {
                 var bankPaymentResult = await _bank.ProceedPayment(paymentRequest);
              
@@ -46,7 +46,7 @@ namespace CheckoutPaymentGateway.Payment
 
         private MaskedPaymentRequest GetMaskedRequest(PaymentRequest paymentRequest)
         {
-            var maskedCreditCard = _maskCreditCardService.Mask(paymentRequest.CreditCardInformation);
+            var maskedCreditCard = _maskCreditCardService.Mask(paymentRequest.CreditCard);
 
             return new MaskedPaymentRequest
             {
