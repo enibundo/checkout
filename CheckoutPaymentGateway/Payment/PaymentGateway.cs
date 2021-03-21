@@ -28,6 +28,9 @@ namespace CheckoutPaymentGateway.Payment
         public async Task<PaymentResponse> Submit(PaymentRequest paymentRequest)
         {
             var paymentId = _paymentIdProvider.Get();
+
+            Log.Information("Submit payment {paymentId}", paymentId);
+
             var paymentResponse = PaymentResponse.InvalidCreditCard(paymentId);
             var maskedRequest = _paymentRequestPreProcessor.Process(paymentRequest);
 
@@ -36,6 +39,8 @@ namespace CheckoutPaymentGateway.Payment
                 var bankPaymentResult = await _bank.ProceedPayment(paymentRequest);
                 paymentResponse = PaymentResponse.FromBankResult(paymentId, bankPaymentResult);
             }
+            
+            Log.Information("Payment {paymentId} and {paymentResponse}", paymentId, paymentResponse);
 
             await _paymentRepository.Store(paymentId, maskedRequest, paymentResponse);
             return paymentResponse;
