@@ -33,7 +33,7 @@ namespace CheckoutPaymentGatewayTests
 
 
         [Test]
-        public async Task should_call_bank_if_credit_card_is_valid()
+        public async Task should_call_bank_and_store_if_credit_card_is_valid()
         {
             // arrange
             var paymentId = Guid.NewGuid();
@@ -52,11 +52,12 @@ namespace CheckoutPaymentGatewayTests
 
             // assert
             _bank.Verify(x => x.ProceedPayment(paymentRequest), Times.Once());
+            _paymentRepository.Verify(x=>x.Store(paymentId, It.IsAny<MaskedPaymentRequest>(), It.IsAny<PaymentResponse>()), Times.Once);
         }
 
 
         [Test]
-        public async Task should_not_call_bank_if_credit_card_is_invalid()
+        public async Task should_not_call_bank_but_still_store_if_credit_card_is_invalid()
         {
             // arrange
             var paymentId = Guid.NewGuid();
@@ -75,6 +76,7 @@ namespace CheckoutPaymentGatewayTests
 
             // assert
             _bank.Verify(x=>x.ProceedPayment(paymentRequest), Times.Never());
+            _paymentRepository.Verify(x => x.Store(paymentId, It.IsAny<MaskedPaymentRequest>(), It.IsAny<PaymentResponse>()), Times.Once);
         }
     }
 }
