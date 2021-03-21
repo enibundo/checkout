@@ -16,6 +16,9 @@ namespace CheckoutPaymentGateway.Services
 
         public bool IsValid(CreditCard creditCard)
         {
+            if (string.IsNullOrEmpty(creditCard.Number))
+                return false;
+
             creditCard.Number = SanitizeCreditCardNumber(creditCard.Number);
 
             return IsCreditCardNumberValid(creditCard) && 
